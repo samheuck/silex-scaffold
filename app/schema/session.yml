@@ -1,0 +1,19 @@
+session:
+  fields:
+    - name: session_id
+      type: string
+      attributes:
+        length: 255
+
+    - name: session_value
+      type: text
+      attributes:
+        length: 65535
+
+    - name: session_time
+      type: integer
+      attributes:
+        -
+
+  primary_key:
+    - session_id

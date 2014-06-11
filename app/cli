@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+
+date_default_timezone_set('UTC');
+set_time_limit(0);
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use App\Console\CLI;
+use App\Application;
+
+$cli = new CLI(Application::create());
+$cli->run();
