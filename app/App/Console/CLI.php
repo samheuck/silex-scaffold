@@ -19,7 +19,7 @@ class CLI extends BaseCLI
     public function getDefaultCommands()
     {
         $commands = parent::getDefaultCommands();
-        $commands[] = new Command\SyncDb($this->app);
+        $commands[] = new Command\SchemaSync($this->app);
         return $commands;
     }
 }
