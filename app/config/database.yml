@@ -1,10 +1,3 @@
-# App mode: dev or prod.
-mode: dev
-debug: true
-
-# BCrypt difficulty range is 4 - 34.
-bcrypt.difficulty: 10
-
 # Database credentials.
 db.options:
   driver: pdo_mysql
@@ -18,10 +11,3 @@ db.options:
 testdb.options:
   driver: pdo_sqlite
   memory: true
-
-# Outgoing mail server configuration.
-swiftmailer.options:
-  host:
-  port: 25
-  username:
-  password:

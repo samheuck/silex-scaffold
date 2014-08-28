@@ -1,0 +1,10 @@
+@import:
+  - database.yml
+  - swiftmailer.yml
+  - twig.yml
+
+# App mode: dev or prod.
+mode: dev
+
+# BCrypt difficulty range is 4 - 34.
+bcrypt.difficulty: 10

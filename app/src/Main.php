@@ -8,7 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Main
 {
-    public function indexAction(Request $request, Application $app)
+    public function index(Request $request, Application $app)
     {
+        return $app->render('@app/index.twig');
     }
 }

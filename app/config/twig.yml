@@ -1,0 +1,7 @@
+twig.options:
+    debug: true
+    charset: utf-8
+
+twig.paths:
+    - path: /
+      namespace: app

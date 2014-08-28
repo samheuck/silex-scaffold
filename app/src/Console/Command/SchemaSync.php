@@ -35,10 +35,10 @@ class SchemaSync extends BaseCommand
     {
         $yaml = new Parser();
 
-        if ($dir = opendir($this->app['path']['base'] . '/schema')) {
+        if ($dir = opendir($this->app['paths']['base'] . '/schema')) {
             while (false !== ($fileName = readdir($dir))) {
                 if ('.' !== $fileName && '..' !== $fileName) {
-                    $schema = $yaml->parse(file_get_contents($this->app['path']['base'] . "/schema/$fileName"));
+                    $schema = $yaml->parse(file_get_contents($this->app['paths']['base'] . "/schema/$fileName"));
                     $this->schemas[key($schema)] = $schema[key($schema)];
                 }
             }

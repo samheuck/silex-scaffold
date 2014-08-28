@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Igorw\Silex\ConfigServiceProvider;
+use Flint\Application as Flint;
 use Silex\Application as Silex;
 use Silex\ServiceProviderInterface;
 use Silex\Provider\DoctrineServiceProvider;
@@ -11,32 +11,40 @@ use Silex\Provider\SecurityServiceProvider;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\SwiftmailerServiceProvider;
 use Silex\Provider\TwigServiceProvider;
-use Silex\Provider\UrlGeneratorServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
 
-class Application extends Silex
+class Application extends Flint
 {
     use Silex\MonologTrait;
     use Silex\SecurityTrait;
     use Silex\SwiftmailerTrait;
     use Silex\TwigTrait;
 
-    public function __construct(array $values = [])
+    public function __construct($debug = false)
     {
-        $values['paths']['base']     = realpath(__DIR__ . '/..');
-        $values['paths']['webroot']  = realpath(__DIR__ . '/../../webroot');
-        $values['paths']['fixtures'] = $values['paths']['base'] . '/fixtures';
+        $basePath = realpath(__DIR__ . '/..');
 
-        parent::__construct($values);
+        $params = [
+            'paths' => [
+                'base'      => $basePath,
+                'templates' => $basePath . '/templates',
+                'webroot'   => $basePath . '/../webroot',
+                'config'    => $basePath . '/config',
+                'logs'      => $basePath . '/var/logs',
+                'cache'     => $basePath . '/var/cache',
+            ],
+        ];
+
+        parent::__construct($basePath, $debug, $params);
         $this->bootstrap();
     }
 
-    public static function create(array $values = [])
+    public static function create($debug = false)
     {
-        return new static($values);
+        return new static($debug);
     }
 
     protected function bootstrap()
@@ -44,31 +52,31 @@ class Application extends Silex
         // Set ref to app.
         $app = $this;
 
-        // Initializ E-mail service. (Must be before configuration is loaded)
+        // Initializ E-mail service. (Must be before configuration is loaded, otherwise defaults will override)
         $app->register(new SwiftmailerServiceProvider());
 
         // Load configuration.
-        $app->register(new ConfigServiceProvider($app['paths']['base'] . "/config.yml"));
-
-        // Set ref to environment.
-        $mode = $app['mode'];
+        $app['config.loader']->setCacheDir($app['paths']['cache'] . '/config');
+        $app->configure($app['paths']['config'] . '/config.yml');
 
         // Initialize logging.
         $app->register(
             new MonologServiceProvider(),
             [
-                'monolog.logfile' => $app['paths']['base'] . "/log",
+                'monolog.logfile' => $app['paths']['logs'] . '/log',
             ]
         );
-
-        // Initialize link builder.
-        $app->register(new UrlGeneratorServiceProvider());
 
         // Initialize templating eingine.
         $app->register(
             new TwigServiceProvider(),
-            ['twig.path' => $app['paths']['base'] . "/templates"]
+            ['twig.options' => array_merge($app['twig.options'], ['cache' => $app['paths']['cache'] . '/twig'])]
         );
+
+        // Load twig paths.
+        foreach ($app['twig.paths'] as $path) {
+            $app['twig.loader.filesystem']->addPath($app['paths']['templates'] . $path['path'], $path['namespace']);
+        }
 
         // Initialize validator.
         $app->register(new ValidatorServiceProvider());
@@ -128,5 +136,8 @@ class Application extends Silex
             return new BCryptPasswordEncoder($app['bcrypt.difficulty']);
         });
         /**/
+
+        // Load configuration, must be done last.
+
     }
 }

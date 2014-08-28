@@ -1,7 +1,7 @@
 {
   "require": {
     "doctrine/dbal": "~2.2",
-    "igorw/config-service-provider": "~1.2",
+    "flint/flint": "~1.4",
     "ircmaxell/password-compat": "~1.0",
     "monolog/monolog": ">=1.0.0",
     "silex/silex": "1.*",
@@ -21,6 +21,6 @@
     "symfony/dom-crawler": ">=2.3,<2.5-dev"
   },
   "autoload": {
-    "psr-0": { "App": "app/" }
+    "psr-4": { "App\\": "app/src/" }
   }
 }

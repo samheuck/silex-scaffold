@@ -1,0 +1,6 @@
+# Outgoing mail server configuration.
+swiftmailer.options:
+  host:
+  port: 25
+  username:
+  password:
