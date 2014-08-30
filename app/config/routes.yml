@@ -1,3 +1,4 @@
 main:
     path: /
+    methods: ["GET"]
     defaults: { _controller: App\Main::index }
