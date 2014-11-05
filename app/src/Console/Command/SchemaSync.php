@@ -33,17 +33,19 @@ class SchemaSync extends BaseCommand
 
     private function parseSchema()
     {
-        $yaml = new Parser();
+        $pathToSchemas = opendir($this->app['paths']['base'] . '/schema');
 
-        if ($dir = opendir($this->app['paths']['base'] . '/schema')) {
-            while (false !== ($fileName = readdir($dir))) {
-                if ('.' !== $fileName && '..' !== $fileName) {
-                    $schema = $yaml->parse(file_get_contents($this->app['paths']['base'] . "/schema/$fileName"));
-                    $this->schemas[key($schema)] = $schema[key($schema)];
-                }
-            }
-        } else {
+        if (!$pathToSchemas) {
             throw new \Exception('Could not open schema directory.');
+        }
+
+        $yamlParser = new Parser();
+
+        while (($fileName = readdir($pathToSchemas)) !== false) {
+            if ('.' !== $fileName && '..' !== $fileName) {
+                $schema = $yamlParser->parse(file_get_contents($this->app['paths']['base'] . "/schema/$fileName"));
+                $this->schemas[key($schema)] = $schema[key($schema)];
+            }
         }
     }
 
@@ -58,24 +60,20 @@ class SchemaSync extends BaseCommand
     {
         $table = new Table($tableName);
 
-        // Add columns.
         foreach ($definition['fields'] as $field) {
             $table->addColumn($field['name'], $field['type'], $field['attributes']);
         }
 
-        // Set primary key.
         if (isset($definition['primary_key'])) {
             $table->setPrimaryKey($definition['primary_key']);
         }
 
-        // Create unique indexes.
         if (isset($definition['unique_index'])) {
             foreach ($definition['unique_index'] as $index) {
                 $table->addUniqueIndex($index['fields']);
             }
         }
 
-        // Create indexes.
         if (isset($definition['index'])) {
             foreach ($definition['unique_index'] as $index) {
                 $table->addIndex($index['fields']);
@@ -89,7 +87,6 @@ class SchemaSync extends BaseCommand
     {
         $db = $this->app['db']->getSchemaManager();
 
-        // Create any tables that do not already exist.
         foreach ($this->tables as $tableName => $table) {
             if (!$db->tablesExist($tableName)) {
                 $db->createTable($table);
