@@ -1,0 +1,25 @@
+users:
+  fields:
+    - name: username
+      type: string
+      attributes:
+        length: 255
+
+    - name: password
+      type: string
+      attributes:
+        length: 255
+
+    - name: roles
+      type: string
+      attributes:
+        length: 255
+
+    - name: enabled
+      type: boolean
+
+    - name: date_created
+      type: datetime
+
+  primary_key:
+    - username

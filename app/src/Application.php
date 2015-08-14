@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\User\UserProvider;
 use Flint\Application as Flint;
 use Silex\Application as Silex;
 use Silex\ServiceProviderInterface;
@@ -94,16 +95,17 @@ class Application extends Flint
             return new PdoSessionHandler(
                 $app['db']->getWrappedConnection(),
                 [
-                    'db_table'      => 'session',
-                    'db_id_col'     => 'session_id',
-                    'db_data_col'   => 'session_value',
-                    'db_time_col'   => 'session_time',
+                    'db_table' => 'session',
+                    'db_id_col' => 'sess_id',
+                    'db_data_col' => 'sess_data',
+                    'db_time_col' => 'sess_time',
+                    'db_lifetime_col' => 'sess_lifetime',
                 ],
                 $app['session.storage.options']
             );
         });
 
-        /* Remove this line to enable Security.
+        // /* Remove this line to enable Security.
         // Authentication and access control.
         $app->register(
             new SecurityServiceProvider(),
@@ -116,10 +118,10 @@ class Application extends Flint
 
                     'default' => [
                         'pattern' => '^.*$',
-                        'form' => ['login_path' => '/user/login', 'check_path' => '/authenticate'],
-                        'logout' => ['logout_path' => '/user/logout'],
+                        'form' => ['login_path' => '/login', 'check_path' => '/authenticate'],
+                        'logout' => ['logout_path' => '/logout', 'invalidate_session' => true],
                         'users' => $app->share(function ($app) {
-                            return new UserProvider($app['db']);
+                            return new UserProvider($app);
                         }),
                         'anonymous' => true,
                     ],
@@ -128,7 +130,7 @@ class Application extends Flint
         );
 
         $app['security.access_rules'] = [
-            ['^/user/login$', 'IS_AUTHENTICATED_ANONYMOUSLY'],
+            ['^/login$', 'IS_AUTHENTICATED_ANONYMOUSLY'],
         ];
 
         // For password encryption.
@@ -136,8 +138,5 @@ class Application extends Flint
             return new BCryptPasswordEncoder($app['bcrypt.difficulty']);
         });
         /**/
-
-        // Load configuration, must be done last.
-
     }
 }
