@@ -1,4 +1,9 @@
 main:
-    path: /
-    methods: ["GET"]
-    defaults: { _controller: App\Main::index }
+  path: /
+  methods: ["GET"]
+  defaults: { _controller: App\Main::index }
+
+login:
+  path: /login
+  methods: ["GET"]
+  defaults: { _controller: App\Main::login }
