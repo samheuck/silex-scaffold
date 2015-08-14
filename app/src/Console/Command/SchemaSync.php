@@ -61,7 +61,8 @@ class SchemaSync extends BaseCommand
         $table = new Table($tableName);
 
         foreach ($definition['fields'] as $field) {
-            $table->addColumn($field['name'], $field['type'], $field['attributes']);
+            $attributes = isset($field['attributes']) ? $field['attributes'] : [];
+            $table->addColumn($field['name'], $field['type'], $attributes);
         }
 
         if (isset($definition['primary_key'])) {
