@@ -3,6 +3,7 @@
     "doctrine/dbal": "~2.2",
     "flint/flint": "~1.4",
     "ircmaxell/password-compat": "~1.0",
+    "kuikui/memcache-service-provider": "~2.0",
     "monolog/monolog": ">=1.0.0",
     "silex/silex": "1.*",
     "symfony/console": "~2.3",
