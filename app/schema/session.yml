@@ -1,20 +1,20 @@
 session:
   fields:
     - name: sess_id
-      type: string
+      type: binary
       attributes:
-        length: 255
+        length: 128
 
     - name: sess_data
-      type: text
-      attributes:
-        length: 65535
+      type: blob
 
     - name: sess_time
       type: integer
 
     - name: sess_lifetime
       type: integer
+      attributes:
+        - unsigned
 
   primary_key:
     - sess_id
