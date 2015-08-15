@@ -15,6 +15,7 @@ use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\MemcachedSessionHandler;
 use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
 
 class Application extends Flint
@@ -91,7 +92,8 @@ class Application extends Flint
         // Initialize session manager.
         $app->register(new SessionServiceProvider());
 
-        $app['session.storage.handler'] = $app->share(function () use ($app) {
+        $app['session.storage.handler'] = $app->share(function ($app) {
+            /* Remove this line to enable DB sessions.
             return new PdoSessionHandler(
                 $app['db']->getWrappedConnection(),
                 [
@@ -103,6 +105,13 @@ class Application extends Flint
                 ],
                 $app['session.storage.options']
             );
+            /**/
+
+            // /* Remove this line to enable memcached sessions.
+            $memcache = new \Memcached('app');
+            $memcache->addServer('localhost', 11211, 1);
+            return new MemcachedSessionHandler($memcache, $app['session.storage.options']);
+            /**/
         });
 
         // /* Remove this line to enable Security.
