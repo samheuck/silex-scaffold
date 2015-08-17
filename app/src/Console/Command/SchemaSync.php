@@ -24,11 +24,12 @@ class SchemaSync extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->parseSchema();
-        $this->createTables();
-        $this->commitNewTables();
-        $this->createForeignKeys();
-        $this->commitChanges();
+        $this
+            ->parseSchema()
+            ->createTables()
+            ->commitNewTables()
+            ->createForeignKeys()
+            ->commitChanges();
     }
 
     private function parseSchema()
@@ -47,6 +48,8 @@ class SchemaSync extends BaseCommand
                 $this->schemas[key($schema)] = $schema[key($schema)];
             }
         }
+
+        return $this;
     }
 
     private function createTables()
@@ -54,6 +57,8 @@ class SchemaSync extends BaseCommand
         foreach ($this->schemas as $tableName => $definition) {
             $this->tables[$tableName] = $this->createTable($tableName, $definition);
         }
+
+        return $this;
     }
 
     private function createTable($tableName, $definition)
@@ -93,6 +98,8 @@ class SchemaSync extends BaseCommand
                 $db->createTable($table);
             }
         }
+
+        return $this;
     }
 
     private function createForeignKeys()
@@ -109,6 +116,8 @@ class SchemaSync extends BaseCommand
                 }
             }
         }
+
+        return $this;
     }
 
     private function commitChanges()
@@ -125,5 +134,7 @@ class SchemaSync extends BaseCommand
                 }
             }
         }
+
+        return $this;
     }
 }
