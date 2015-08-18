@@ -25,27 +25,28 @@ class SchemaSync extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this
-            ->parseSchema()
+            ->loadSchema()
             ->createTables()
             ->commitNewTables()
             ->createForeignKeys()
             ->commitChanges();
     }
 
-    private function parseSchema()
+    private function loadSchema()
     {
-        $pathToSchemas = opendir($this->app['paths']['base'] . '/schema');
+        $schemaDir = opendir($this->app['paths']['base'] . '/schema');
 
-        if (!$pathToSchemas) {
+        if (!$schemaDir) {
             throw new \Exception('Could not open schema directory.');
         }
 
         $yamlParser = new Parser();
 
-        while (($fileName = readdir($pathToSchemas)) !== false) {
+        while (($fileName = readdir($schemaDir)) !== false) {
             if ('.' !== $fileName && '..' !== $fileName) {
                 $schema = $yamlParser->parse(file_get_contents($this->app['paths']['base'] . "/schema/$fileName"));
-                $this->schemas[key($schema)] = $schema[key($schema)];
+                $schemaName = key($schema);
+                $this->schemas[$schemaName] = $schema[$schemaName];
             }
         }
 
