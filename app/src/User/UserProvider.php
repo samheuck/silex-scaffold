@@ -46,6 +46,6 @@ class UserProvider implements UserProviderInterface
 
     public function supportsClass($class)
     {
-        return $class === 'App\User\User';
+        return $class == 'App\User\User';
     }
 }
