@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c6b6dee441a3664feaf8860100646c2e",
+    "hash": "0e75eaf0cb331f05d9cbcd1710d26b8b",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -605,49 +605,6 @@
                 "password"
             ],
             "time": "2014-11-20 16:49:30"
-        },
-        {
-            "name": "kuikui/memcache-service-provider",
-            "version": "v2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/KuiKui/MemcacheServiceProvider.git",
-                "reference": "515fc3b09292fe68d9205bc425497519d0bdcf63"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/KuiKui/MemcacheServiceProvider/zipball/515fc3b09292fe68d9205bc425497519d0bdcf63",
-                "reference": "515fc3b09292fe68d9205bc425497519d0bdcf63",
-                "shasum": ""
-            },
-            "require-dev": {
-                "atoum/atoum": "dev-master",
-                "silex/silex": "~2.0@dev"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "KuiKui\\MemcacheServiceProvider": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Denis Roussel",
-                    "email": "denis.roussel@gmail.com",
-                    "homepage": "http://denisroussel.fr"
-                }
-            ],
-            "description": "Memcache integration for Silex.",
-            "homepage": "https://github.com/KuiKui/MemcacheServiceProvider",
-            "keywords": [
-                "memcache",
-                "silex"
-            ],
-            "time": "2015-05-16 05:26:25"
         },
         {
             "name": "monolog/monolog",
@@ -1758,16 +1715,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.19.0",
+            "version": "v1.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "edbeaf43b0a606cdaadc32a11d2673614a377b90"
+                "reference": "1ea4e5f81c6d005fe84d0b38e1c4f1955eb86844"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/edbeaf43b0a606cdaadc32a11d2673614a377b90",
-                "reference": "edbeaf43b0a606cdaadc32a11d2673614a377b90",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/1ea4e5f81c6d005fe84d0b38e1c4f1955eb86844",
+                "reference": "1ea4e5f81c6d005fe84d0b38e1c4f1955eb86844",
                 "shasum": ""
             },
             "require": {
@@ -1776,7 +1733,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.19-dev"
+                    "dev-master": "1.20-dev"
                 }
             },
             "autoload": {
@@ -1811,7 +1768,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-07-31 13:45:26"
+            "time": "2015-08-12 15:56:39"
         }
     ],
     "packages-dev": [
